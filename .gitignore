@@ -3,3 +3,4 @@ node_modules/
 notes-api-webserver.pem
 *.txt
 token.txt
+.claude/
