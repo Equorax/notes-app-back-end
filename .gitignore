@@ -1,3 +1,5 @@
 node_modules/
 *.pem
 notes-api-webserver.pem
+*.txt
+token.txt
