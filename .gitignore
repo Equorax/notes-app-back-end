@@ -4,3 +4,5 @@ notes-api-webserver.pem
 *.txt
 token.txt
 .claude/
+.env
+.prod.env
