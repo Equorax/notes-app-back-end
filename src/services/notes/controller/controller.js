@@ -19,13 +19,13 @@ export const createNote = async (req, res, next) => {
     return next(new InvariantError('Catatan gagal ditambahkan'));
   }
 
-  return response(res, 201, 'Catatan berhasil ditambahkan', note);
+  return response(res, 201, 'Catatan berhasil ditambahkan', { noteId: note.id });
 };
 
 // GET mendapatkan semua notes
 export const getNotes = async (req, res) =>{
   const notes = await NotesRepositories.getNotes();
-  return response(res, 200, 'Catatan sukses ditampilkan', notes);
+  return response(res, 200, 'Catatan sukses ditampilkan', { notes });
 };
 
 //  GET  /notes{/:id} Mendapatkan notes berdasarkan ID
@@ -39,7 +39,7 @@ export const getNoteById = async (req, res, next) =>{
     return next(new NotFoundError('Catatan tidak ditemukan'));
   }
 
-  return response(res, 200, 'Catatan sukses ditampilkan', note);
+  return response(res, 200, 'Catatan sukses ditampilkan', { note });
 
 };
 
@@ -59,20 +59,20 @@ export const editNoteById = async (req, res, next) =>{
   if (!note){
     return next(new NotFoundError('Catatan tida ditemukan'));
   }
-  return response(res, 200, 'Catatan berhasil diperbarui', note);
+  return response(res, 200, 'Catatan berhasil diperbarui');
 };
 
 // Delete /notes/{/:id} menghapus notes
 export const deleteById = async (req, res, next) => {
   const { id } = req.params;
 
-  const deletedNote = await noteRepositories.deleteNoteById(id);
+  const deletedNote = await NotesRepositories.deleteNoteById(id);
 
   if (!deletedNote){
     return next(new NotFoundError('Catatan tidak ditemukan'));
   }
 
 
-  return response(res, 200, 'Catatan berhasil dihapus', deletedNote);
+  return response(res, 200, 'Catatan berhasil dihapus');
 
 };
