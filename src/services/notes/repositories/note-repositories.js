@@ -14,7 +14,7 @@ class NotesRepositories {
     const updatedAt = createdAt;
 
     const query  = {
-      text: 'INSERT INTO notes(id, title, body, tags,created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING id,title,body,tags,created_at, updated_at',
+      text: 'INSERT INTO notes(id, title, body, tags, created_at, updated_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, title, body, tags, created_at AS "createdAt", updated_at AS "updatedAt"',
       values: [id, title, body, tags, createdAt, updatedAt]
     };
 
@@ -23,13 +23,15 @@ class NotesRepositories {
   }
 
   async getNotes(){
-    const result =  await this.pool.query('SELECT * FROM notes');
+    const result =  await this.pool.query(
+      'SELECT id, title, body, tags, created_at AS "createdAt", updated_at AS "updatedAt" FROM notes'
+    );
     return result.rows;
   }
 
   async getNotesById(id){
     const query = {
-      text: 'SELECT * FROM notes WHERE id = $1',
+      text: 'SELECT id, title, body, tags, created_at AS "createdAt", updated_at AS "updatedAt" FROM notes WHERE id = $1',
       values: [id],
     };
 
@@ -41,7 +43,7 @@ class NotesRepositories {
     const updatedAt = new Date().toISOString();
 
     const query = {
-      text: 'UPDATE notes SET title = $1, body = $2, tags = $3, update_at = $4 WHERE id = $5 RETURNING id',
+      text: 'UPDATE notes SET title = $1, body = $2, tags = $3, updated_at = $4 WHERE id = $5 RETURNING id',
       values: [title, body, tags, updatedAt, id]
     };
 
